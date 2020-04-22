@@ -86,8 +86,14 @@ public class MenuServico extends JDialog {
 	private void finalizarConsulta( ) {
 		// TODO implementar este método (se necessário)
 		//gest.removeConsulta(senha.getConsulta());
-		//gest.removeSenha(senha.getId());
-		gest.getSenha(senha.getId()).terminaConsulta();
+		senha.terminaConsulta();
+		
+		if(senha.existeProxServico()) {
+			servico = senha.proxServico();
+		} else {
+			gest.removeConsulta(senha.getConsulta());
+		}
+		
 	}
 
 	/** método chamado para encaminhar o utente para outros serviços */
@@ -110,7 +116,7 @@ public class MenuServico extends JDialog {
 			else {
 				serv.add( res );
 				// TODO associar o serviço à senha
-				//senha.addListaServicos(s);
+				senha.addListaServicos(s);
 			}
 		} while( true );
 		finalizarConsulta();
@@ -119,7 +125,7 @@ public class MenuServico extends JDialog {
 	/** método chamado para listar as senhas em espera neste serviço */
 	private void listarSenhas() {
 		// ver quais as senhas em espera por este serviço
-		List<Senha> senhas = gest.getServico(servico.getId()).getSenhasServico();
+		List<Senha> senhas = servico.getSenhasServico();
 		String infoSenhas[] = new String[ senhas.size() ];
 		int i=0;
 		for( Senha s : senhas ) {

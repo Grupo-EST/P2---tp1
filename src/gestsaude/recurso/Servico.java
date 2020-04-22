@@ -104,9 +104,7 @@ public class Servico {
 
 	/** processo de terminar a consulta associada à senha */ 
 	public void terminaConsulta( Senha s ) {
-		s.terminaConsulta();
-		removeSenha(s);
-		// TODO: prox serviço?
+		
 	}
 	
 	

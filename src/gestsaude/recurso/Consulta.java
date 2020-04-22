@@ -46,8 +46,8 @@ public class Consulta {
 	}
 
 	public void setServico(Servico servico) {
-		servico.addConsultaMarcada(this);
 		this.servico = servico;
+		servico.addConsultaMarcada(this);
 	}
 	
 	public LocalDateTime getDateTime() {

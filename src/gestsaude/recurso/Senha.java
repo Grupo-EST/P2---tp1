@@ -14,7 +14,7 @@ public class Senha {
 	private Consulta consulta;
 	private LocalDateTime tempoEntrada;
 	private List<Servico> listaServicos = new ArrayList<Servico>();
-	private int nServicos = listaServicos.size();
+	private int tamLista = listaServicos.size();
 	
 
 	public Senha(String id, Consulta consulta, LocalDateTime tempoEntrada ) {
@@ -23,18 +23,27 @@ public class Senha {
 		setTempoEntrada(tempoEntrada);
 	}
 	
+	
+	public int getTamLista() {
+		return tamLista;
+	}
+	
+	public void setTamLista(int tamLista) {
+		this.tamLista = tamLista;
+	}
+
 	public String getId() {
 		return id;
 	}
-
-	public Consulta getConsulta() {
-		return consulta;
-	}
-
+	
 	public void setConsulta(Consulta consulta) {
 		this.consulta = consulta;
 		consulta.setSenha(this);
 		addListaServicos(consulta.getServico());
+	}
+
+	public Consulta getConsulta() {
+		return consulta;
 	}
 
 	public LocalDateTime getTempoEntrada() {
@@ -45,23 +54,14 @@ public class Senha {
 		this.tempoEntrada = tempoEntrada;
 	}
 	
-	public int getNServicos() {
-		return nServicos;
-	}
-	
-	public void setNServicos() {
-		this.nServicos = listaServicos.size();
-	}
-
 	public void addListaServicos(Servico servico) {
 		listaServicos.add(servico);
-		setNServicos();
-		
+		setTamLista(listaServicos.size());
 	}
 	
 	public void removeListaServicos(Servico servico) {
 		listaServicos.remove(servico);
-		setNServicos();
+		setTamLista(listaServicos.size());
 	}
 	
 	public List<Servico> getListaServicos(){
@@ -75,22 +75,28 @@ public class Senha {
 		//serv.addSenha
 		//serv.addConsultaMarcada(this.getConsulta)
 		//consulta.setServico(servico);
-		if(!listaServicos.isEmpty()) {
-			Servico serv = listaServicos.get(nServicos - 1);
+		if(existeProxServico()) {
+			terminaConsulta();
+			Servico serv = listaServicos.get(0);
+			serv.addConsultaMarcada(consulta);
 			consulta.setServico(serv);
 			serv.addSenha(this);
-			//serv.addConsultaMarcada(consulta);
-			return serv;
+			return serv;	
 		}
 		return null;
 	}
+	
+	public boolean existeProxServico() {
+		return tamLista > 1 ? true : false;
+	}
+	
+	
 
 	/** faz o processamento do fim da consulta por um dado serviço
 	 */
 	public void terminaConsulta() {
-		consulta.getServico().removeConsultaMarcada(consulta);
-		//remover senha deste serviço
-		//consulta.getServico().removeSenha(this);
+		listaServicos.get(0).removeConsultaMarcada(consulta);
+		removeListaServicos(consulta.getServico());
 	}
 
 	@Override

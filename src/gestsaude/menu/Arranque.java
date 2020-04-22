@@ -143,10 +143,7 @@ public class Arranque {
 
 	
 	
-		
-		
-	
-		return gest;
+	return gest;
 	}
 
 	/** arranque do sistema
