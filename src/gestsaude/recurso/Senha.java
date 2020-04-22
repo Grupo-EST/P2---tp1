@@ -62,8 +62,8 @@ public class Senha {
 	}
 	
 	public void removeListaServicos(Servico servico) {
-		listaServicos.remove(servico);
 		setTamLista(listaServicos.size());
+		listaServicos.remove(servico);
 	}
 	
 	public List<Servico> getListaServicos(){
@@ -74,17 +74,12 @@ public class Senha {
 	 * @return o próximo serviço associado a esta senha
 	 */
 	public Servico proxServico() {
-		//serv.addSenha
-		//serv.addConsultaMarcada(this.getConsulta)
-		//consulta.setServico(servico);
 		if(existeProxServico()) {
-			terminaConsulta();
 			Servico serv = listaServicos.get(0);
-			serv.addConsultaMarcada(consulta);
-			consulta.setServico(serv);
 			serv.addSenha(this);
-			return serv;	
-		}
+			return listaServicos.get(0);
+		} 
+		
 		return null;
 	}
 	
@@ -99,6 +94,8 @@ public class Senha {
 	public void terminaConsulta() {
 		listaServicos.get(0).removeConsultaMarcada(consulta);
 		removeListaServicos(consulta.getServico());
+		if(proxServico() != null)
+			consulta.setServico(proxServico());
 	}
 
 	@Override

@@ -90,13 +90,9 @@ public class MenuServico extends JDialog {
 		// TODO implementar este método (se necessário)
 		//gest.removeConsulta(senha.getConsulta());
 		senha.terminaConsulta();
-		
-		if(senha.existeProxServico()) {
-			servico = senha.proxServico();
-		} else {
+		if(senha.proxServico() == null)
 			gest.removeConsulta(senha.getConsulta());
-		}
-		
+
 	}
 
 	/** método chamado para encaminhar o utente para outros serviços */
