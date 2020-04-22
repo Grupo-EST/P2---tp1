@@ -28,6 +28,9 @@ import gestsaude.recurso.Servico;
 /** Janela de interação reservada a cada serviço
  *
  */
+
+//proxServico 0.1
+
 public class MenuServico extends JDialog {
 	
 	// dimensões dos botões

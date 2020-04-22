@@ -8,6 +8,8 @@ import java.util.ListIterator;
 
 /** Representa uma Senha
  */
+
+//proxServico 0.1
 public class Senha {
 	
 	private String id;

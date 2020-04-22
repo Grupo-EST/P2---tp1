@@ -11,6 +11,9 @@ import gestsaude.util.Consultas;
  * TODO: A lista das consultasMarcadas deve ser cronológica.
  * 		 A lista das ordemSenhas deve ser ordenana pela ordem de atendimento.
  */
+
+//proxServico 0.1
+
 public class Servico {
 	
 	private String id;
