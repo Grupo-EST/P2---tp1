@@ -49,8 +49,8 @@ public class Servico {
 		return nSenhas;
 	}
 	
-	public void setNSenhas() {
-		this.nSenhas = ordemSenhas.size();
+	public void setNSenhas(int nSenhas) {
+		this.nSenhas = nSenhas;
 	}
 	
 	//TODO Getters e Setters de Consulta precisos?
@@ -77,12 +77,12 @@ public class Servico {
 	
 	public void addSenha(Senha senha) {
 		ordemSenhas.add(senha);
-		setNSenhas();
+		setNSenhas(ordemSenhas.size());
 	}
 	
 	public void removeSenha(Senha senha) {
 		ordemSenhas.remove(senha);
-		setNSenhas();
+		setNSenhas(ordemSenhas.size());
 	}
 	
 	public List<Senha> getSenhasServico(){

@@ -93,9 +93,11 @@ public class Senha {
 	 */
 	public void terminaConsulta() {
 		listaServicos.get(0).removeConsultaMarcada(consulta);
+		listaServicos.get(0).removeSenha(this);
 		removeListaServicos(consulta.getServico());
-		if(proxServico() != null)
-			consulta.setServico(proxServico());
+		Servico proxServ = proxServico();
+		if(proxServ != null)
+			consulta.setServico(proxServ);
 	}
 
 	@Override
