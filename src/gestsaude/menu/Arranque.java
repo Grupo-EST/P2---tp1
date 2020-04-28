@@ -102,8 +102,8 @@ public class Arranque {
 	
 		
 
-//		
-// deve ter os seguintes serviços que NÃO aceitam consultas (identificação, Nome do serviço)
+//	TODO:
+//  deve ter os seguintes serviços que NÃO aceitam consultas (identificação, Nome do serviço)
 //	Rad, Radiologia
 //	Audio, Audiometria
 //	Scopia, Endo/Colonoscopia

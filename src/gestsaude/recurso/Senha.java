@@ -62,8 +62,8 @@ public class Senha {
 	}
 	
 	public void removeListaServicos(Servico servico) {
-		setTamLista(listaServicos.size());
-		listaServicos.remove(servico);
+		 listaServicos.remove(servico);
+		 setTamLista(listaServicos.size());
 	}
 	
 	public List<Servico> getListaServicos(){
@@ -84,7 +84,7 @@ public class Senha {
 	}
 	
 	public boolean existeProxServico() {
-		return tamLista > 1 ? true : false;
+		return tamLista > 0 ? true : false;
 	}
 	
 	

@@ -88,9 +88,8 @@ public class MenuServico extends JDialog {
 	/** método chamado para finalizar a consulta */
 	private void finalizarConsulta( ) {
 		// TODO implementar este método (se necessário)
-		//gest.removeConsulta(senha.getConsulta());
 		senha.terminaConsulta();
-		if( !senha.existeProxServico() )
+		if( !senha.existeProxServico() ) 
 			gest.removeConsulta(senha.getConsulta());
 
 	}
