@@ -49,6 +49,7 @@ public class Utente {
 		return Collections.unmodifiableList(consultas);		
 	}
 	
+	// Verifica se tem consulta no dia
 	public boolean consultaNoDia() {
 		if((Consultas.getConsultasDoDia(consultas, RelogioSimulado.getTempoAtual().toLocalDate()).isEmpty())) 
 			return false;
@@ -56,6 +57,8 @@ public class Utente {
 			return true;
 	}
 	
+	// Depois de verificar que tem consulta no dia, 
+	// verifica se tem consulta nas proximas 3h ou nas anteriores
 	public boolean consultaNoMomento() {
 		if(Consultas.getConsultaEntreDatas(consultas, RelogioSimulado.getTempoAtual().minusHours(3), RelogioSimulado.getTempoAtual().plusHours(3)).isEmpty()) 
 			return false;

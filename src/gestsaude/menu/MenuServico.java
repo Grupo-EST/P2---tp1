@@ -77,21 +77,25 @@ public class MenuServico extends JDialog {
 
 	/** método chamado para rejeitar o utente */
 	private void rejeitarUtente() {
-
+		servico.rejeitaProximaSenha();
 	}
 
 	/** método chamado para confirmar a consulta */
 	private void confirmarConsulta() {
 		// TODO implementar este método (se necessário)
+		
 	}
 	
 	/** método chamado para finalizar a consulta */
 	private void finalizarConsulta( ) {
 		// TODO implementar este método (se necessário)
-		senha.terminaConsulta();
+		servico.terminaConsulta(senha);
 		if( !senha.existeProxServico() ) 
 			gest.removeConsulta(senha.getConsulta());
-
+		
+		Servico proxServ = senha.proxServico();
+		if (proxServ != null)
+			senha.getConsulta().setServico(proxServ);
 	}
 
 	/** método chamado para encaminhar o utente para outros serviços */

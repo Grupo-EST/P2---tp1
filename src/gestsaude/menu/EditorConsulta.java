@@ -182,7 +182,7 @@ public class EditorConsulta extends JDialog {
 	private void prencheServicos( JComboBox box ) {
 		for( Servico s : gest.getServicos() )
 			// TODO verificar se o serviço aceita consultas
-			if( true )
+			if( !s.getPrecisaConsulta() )
 				box.addItem( s.getId() ); // TODO substituir pelo id do serviço
 	}
 	

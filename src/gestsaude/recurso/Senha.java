@@ -9,7 +9,6 @@ import java.util.ListIterator;
 /** Representa uma Senha
  */
 
-//proxServico 0.1
 public class Senha {
 	
 	private String id;
@@ -21,8 +20,8 @@ public class Senha {
 
 	public Senha(String id, Consulta consulta, LocalDateTime tempoEntrada ) {
 		this.id = id;
-		setConsulta(consulta);
 		setTempoEntrada(tempoEntrada);
+		setConsulta(consulta);
 	}
 	
 	
@@ -38,10 +37,13 @@ public class Senha {
 		return id;
 	}
 	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	public void setConsulta(Consulta consulta) {
 		this.consulta = consulta;
 		consulta.setSenha(this);
-		addListaServicos(consulta.getServico());
 	}
 
 	public Consulta getConsulta() {
@@ -88,17 +90,15 @@ public class Senha {
 	}
 	
 	
-
 	/** faz o processamento do fim da consulta por um dado serviço
 	 */
 	public void terminaConsulta() {
 		listaServicos.get(0).removeConsultaMarcada(consulta);
 		listaServicos.get(0).removeSenha(this);
-		removeListaServicos(consulta.getServico());
-		Servico proxServ = proxServico();
-		if(proxServ != null)
-			consulta.setServico(proxServ);
+		removeListaServicos(consulta.getServico());	 
 	}
+	
+	
 
 	@Override
 	public String toString() {

@@ -2,7 +2,6 @@ package gestsaude.recurso;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import gestsaude.util.Consultas;
@@ -12,7 +11,6 @@ import gestsaude.util.Consultas;
  * 		 A lista das ordemSenhas deve ser ordenana pela ordem de atendimento.
  */
 
-//proxServico 0.1
 
 public class Servico {
 	
@@ -22,11 +20,20 @@ public class Servico {
 	private ArrayList<Senha> ordemSenhas = new ArrayList<Senha>();
 	// Para fazer marcações
 	private Consulta consulta;
-	private int nSenhas = ordemSenhas.size();
+	private int nSenhas = 0;
+	private boolean precisaConsulta;
 
 	public Servico(String id, String descricao) {
 		setId(id);
 		setDescricao(descricao);
+	}
+	
+	public void precisaConsulta() {
+		this.precisaConsulta = true;
+	}
+	
+	public boolean getPrecisaConsulta() {
+		return precisaConsulta;
 	}
 	
 	public String getId() {
@@ -47,10 +54,6 @@ public class Servico {
 	
 	public int getNSenhas() {
 		return nSenhas;
-	}
-	
-	public void setNSenhas(int nSenhas) {
-		this.nSenhas = nSenhas;
 	}
 	
 	//TODO Getters e Setters de Consulta precisos?
@@ -76,13 +79,17 @@ public class Servico {
 	}
 	
 	public void addSenha(Senha senha) {
-		ordemSenhas.add(senha);
-		setNSenhas(ordemSenhas.size());
+		if(chegouAHoras(senha)) 
+			ordenaSenhaPorConsulta(ordemSenhas, senha);
+		else 
+			ordenaSenhaPorChegada(senha);
+		
+		nSenhas++;		
 	}
 	
 	public void removeSenha(Senha senha) {
 		ordemSenhas.remove(senha);
-		setNSenhas(ordemSenhas.size());
+		nSenhas--;
 	}
 	
 	public List<Senha> getSenhasServico(){
@@ -93,8 +100,11 @@ public class Servico {
 	 * @return a próxima senha a ser atendida, ou null, caso não haja
 	 */
 	public Senha getProximaSenha() {
-		if(!ordemSenhas.isEmpty()) 
-			return ordemSenhas.get(nSenhas - 1);
+		if(!ordemSenhas.isEmpty()) {
+			Senha s = ordemSenhas.get(0);
+			setConsulta(s.getConsulta());
+			return s;
+		}
 		
 		return null;	
 	}
@@ -102,14 +112,38 @@ public class Servico {
 	/** TODO:processo para rejeitar a próxima senha, caso o utente seja muito atrasado
 	 */
 	public void rejeitaProximaSenha() {
+		Senha temp = ordemSenhas.get(0);
+		if(ordemSenhas.size()<3) 
+			ordemSenhas.add(ordemSenhas.size(), temp);
+		else 
+			ordemSenhas.add(3, temp);
 		
+		ordemSenhas.remove(0);
 	}
+	
+	
 
 	/** processo de terminar a consulta associada à senha */ 
 	public void terminaConsulta( Senha s ) {
-		
+		s.terminaConsulta();
 	}
 	
+	private boolean chegouAHoras(Senha s) {
+		return s.getTempoEntrada().isBefore(s.getConsulta().getDateTime());
+	}
+	
+	private void ordenaSenhaPorConsulta(List<Senha> senha, Senha s) {
+		int i;
+		for(i = 0; i<senha.size(); i++) {
+			if(senha.get(i).getConsulta().getDateTime().isAfter(s.getConsulta().getDateTime()))
+				break;
+		}
+		senha.add(i, s);
+	}
+	
+	private void ordenaSenhaPorChegada(Senha s) {
+		ordemSenhas.add(s);
+	}
 	
 	@Override
 	public int hashCode() {
@@ -143,4 +177,3 @@ public class Servico {
 	
 		
 }
-

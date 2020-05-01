@@ -73,6 +73,7 @@ public class GEstSaude {
 		// TODO testar se a consulta já está validada, se estiver retornar a senha já emitida
 		// TODO senão criar e retornar a nova senha
 		Senha senha = new Senha(getProximoIdSenha(), c, t);
+		senha.addListaServicos(c.getServico());
 		addSenha(senha);
 		return senha;
 	}
@@ -127,7 +128,6 @@ public class GEstSaude {
 		consultas.remove(c);
 		c.getServico().removeConsultaMarcada(c);
 		c.getUtente().removeConsulta(c);
-		c.getServico().removeSenha(c.getSenha());
 	}
 
 	

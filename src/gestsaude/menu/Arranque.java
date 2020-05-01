@@ -102,44 +102,59 @@ public class Arranque {
 	
 		
 
-//	TODO:
-//  deve ter os seguintes serviços que NÃO aceitam consultas (identificação, Nome do serviço)
-//	Rad, Radiologia
-//	Audio, Audiometria
-//	Scopia, Endo/Colonoscopia
-//	Enf, Enfermaria
-//	NeuLab, EEG + Dopler; 
+//		TODO:
+//  	deve ter os seguintes serviços que NÃO aceitam consultas (identificação, Nome do serviço)
+//		Rad, Radiologia
+		Servico rad = new Servico("Rad", "Radiologia");
+		rad.precisaConsulta();
+		gest.addServicos(rad);
+//		Audio, Audiometria
+		Servico audio = new Servico("Audio", "Audiometria");
+		audio.precisaConsulta();
+		gest.addServicos(audio);
+//		Scopia, Endo/Colonoscopia
+		Servico scopia = new Servico("Scopia", "Endo/Colonoscopia");
+		scopia.precisaConsulta();
+		gest.addServicos(scopia);
+//		Enf, Enfermaria
+		Servico enf = new Servico("Enf", "Enfermaria");
+		enf.precisaConsulta();
+		gest.addServicos(enf);
+//		NeuLab, EEG + Dopler; 
+		Servico neuLab = new Servico("NeuLab", "EEG + Dopler");
+		neuLab.precisaConsulta();
+		gest.addServicos(neuLab);
+
 		
-// Deve adicionar as seguntes consultas (data e hora, ide do serviço, id utente)	
-	LocalDateTime arranque8h00 =  RelogioSimulado.getTempoAtual();
-//	Hoje 8h10, Ped1, 120
-	Consulta c1 = new Consulta(arranque8h00.plusMinutes(10), ped1, u1);
-	gest.addConsulta(c1);
-//	Hoje 8h10, Ped2, 121
-	Consulta c2 = new Consulta(arranque8h00.plusMinutes(10), ped2, u2);
-	gest.addConsulta(c2);
-//	Hoje 8h10, Orto1, 122
-	Consulta c3 = new Consulta(arranque8h00.plusMinutes(10), orto1, u3);
-	gest.addConsulta(c3);
-//	Hoje 8h20, Derm1, 125
-	Consulta c4 = new Consulta(arranque8h00.plusMinutes(20), derm1, u5);
-	gest.addConsulta(c4);
-//	Hoje 8h30, Ped1, 126
-	Consulta c5 = new Consulta(arranque8h00.plusMinutes(30), ped1, u7);
-	gest.addConsulta(c5);
-//	Hoje 8h40, Ped1, 127
-	Consulta c6 = new Consulta(arranque8h00.plusMinutes(40), ped1, u8);
-	gest.addConsulta(c6);
-//	
-//	Amanhã 8h10, Ped1, 127
-	Consulta c7 = new Consulta(arranque8h00.plusDays(1).plusMinutes(10), ped1, u8);
-	gest.addConsulta(c7);
-//	Amanhã 8h10, Ped1, 129
-	Consulta c8 = new Consulta(arranque8h00.plusDays(1).plusMinutes(10), ped1, u10);
-	gest.addConsulta(c8);
-//	Daqui a dois dias 8h40, Ped1, 123
-	Consulta c9 = new Consulta(arranque8h00.plusDays(2).plusMinutes(40), ped1, u4);
-	gest.addConsulta(c9);
+//  	Deve adicionar as seguntes consultas (data e hora, ide do serviço, id utente)	
+		LocalDateTime arranque8h00 =  RelogioSimulado.getTempoAtual();
+//		Hoje 8h10, Ped1, 120
+		Consulta c1 = new Consulta(arranque8h00.plusMinutes(10), ped1, u1);
+		gest.addConsulta(c1);
+//		Hoje 8h10, Ped2, 121
+		Consulta c2 = new Consulta(arranque8h00.plusMinutes(10), ped2, u2);
+		gest.addConsulta(c2);
+//		Hoje 8h10, Orto1, 122
+		Consulta c3 = new Consulta(arranque8h00.plusMinutes(10), orto1, u3);
+		gest.addConsulta(c3);
+//		Hoje 8h20, Derm1, 125
+		Consulta c4 = new Consulta(arranque8h00.plusMinutes(20), derm1, u5);
+		gest.addConsulta(c4);
+//		Hoje 8h30, Ped1, 126
+		Consulta c5 = new Consulta(arranque8h00.plusMinutes(30), ped1, u7);
+		gest.addConsulta(c5);
+//		Hoje 8h40, Ped1, 127
+		Consulta c6 = new Consulta(arranque8h00.plusMinutes(40), ped1, u8);
+		gest.addConsulta(c6);	
+//		Amanhã 8h10, Ped1, 127
+		Consulta c7 = new Consulta(arranque8h00.plusDays(1).plusMinutes(10), ped1, u8);
+		gest.addConsulta(c7);
+//		Amanhã 8h10, Ped1, 129
+		Consulta c8 = new Consulta(arranque8h00.plusDays(1).plusMinutes(10), ped1, u10);
+		gest.addConsulta(c8);
+//		Daqui a dois dias 8h40, Ped1, 123
+		Consulta c9 = new Consulta(arranque8h00.plusDays(2).plusMinutes(40), ped1, u4);
+		gest.addConsulta(c9);
 
 	
 	
