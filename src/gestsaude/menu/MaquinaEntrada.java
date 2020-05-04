@@ -3,7 +3,9 @@ package gestsaude.menu;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -41,19 +43,18 @@ public class MaquinaEntrada extends javax.swing.JDialog {
 		if( u != null ) {
 			String nome = u.getNome(); // TODO inicializar nome do utente
 			// TODO verificar se o utente tem consulta hoje 
-			if( !u.consultaNoDia() ) {
+			if( !u.consultaNoDia(u.getConsultas(), RelogioSimulado.getTempoAtual().toLocalDate()) ) {
 				JOptionPane.showMessageDialog( this, nome + ", não tem consultas hoje!" );
 				return;
 			}
 			// TODO testar se o cliente tem uma consulta nas 3 horas anteriores e próximas
-			if( !u.consultaNoMomento() ) {
+			if( !u.consultaNoMomento(u.getConsultas(), RelogioSimulado.getTempoAtual()) ) {
 				JOptionPane.showMessageDialog( this, nome + ", não tem consultas nas próximas 3 horas!" );
 				return;
 			}
 			// TODO emitir a senha 
 			gest.emiteSenha(u.getConsultaDoMomento(), RelogioSimulado.getTempoAtual());
 			JOptionPane.showMessageDialog( this, nome + ", a sua senha é " + u.getConsultaDoMomento().getSenha().getId() ); // TODO colocar aqui o número da senha
-			
 		} else {
 			JOptionPane.showMessageDialog( this, "Número inválido" );
 		}

@@ -65,11 +65,10 @@ public class Consulta {
 	public LocalTime getHora() {
 		return dateTime.toLocalTime();
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Consulta no dia " + getData().format( DateTimeFormatter.ofPattern("dd/MM/yyyy") ) + " às " + getHora() ;
 	}
-
 
 }

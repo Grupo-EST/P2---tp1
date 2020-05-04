@@ -1,5 +1,7 @@
 package gestsaude.recurso;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,8 +52,8 @@ public class Utente {
 	}
 	
 	// Verifica se tem consulta no dia
-	public boolean consultaNoDia() {
-		if((Consultas.getConsultasDoDia(consultas, RelogioSimulado.getTempoAtual().toLocalDate()).isEmpty())) 
+	public boolean consultaNoDia(List<Consulta> cs, LocalDate data) {
+		if(Consultas.getConsultasDoDia(cs, data).isEmpty()) 
 			return false;
 		else
 			return true;
@@ -59,8 +61,8 @@ public class Utente {
 	
 	// Depois de verificar que tem consulta no dia, 
 	// verifica se tem consulta nas proximas 3h ou nas anteriores
-	public boolean consultaNoMomento() {
-		if(Consultas.getConsultaEntreDatas(consultas, RelogioSimulado.getTempoAtual().minusHours(3), RelogioSimulado.getTempoAtual().plusHours(3)).isEmpty()) 
+	public boolean consultaNoMomento(List<Consulta> cs, LocalDateTime hConsulta) {
+		if(Consultas.getConsultaEntreDatas(cs, hConsulta.minusHours(3), hConsulta.plusHours(3)).isEmpty()) 
 			return false;
 		else
 			return true;
@@ -68,8 +70,8 @@ public class Utente {
 	
 	public Consulta getConsultaDoMomento(){	
 		for(Consulta cs : consultas) {
-			if(consultaNoDia())
-				if(consultaNoMomento())
+			if(consultaNoDia(consultas, RelogioSimulado.getTempoAtual().toLocalDate())) 
+				if(consultaNoMomento(consultas, cs.getDateTime())) 
 					return cs;
 		}
 		return null;

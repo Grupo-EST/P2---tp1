@@ -86,7 +86,11 @@ public class Senha {
 	}
 	
 	public boolean existeProxServico() {
-		return tamLista > 0 ? true : false;
+		/*
+		 * if( tamLista > 0) { return true; } else {
+		 * getConsulta().getUtente().setEstaEmConsulta(false); return false; }
+		 */
+		return (tamLista > 0) ? true : false;
 	}
 	
 	

@@ -144,10 +144,10 @@ public class Arranque {
 		Consulta c5 = new Consulta(arranque8h00.plusMinutes(30), ped1, u7);
 		gest.addConsulta(c5);
 //		Hoje 8h40, Ped1, 127
-		Consulta c6 = new Consulta(arranque8h00.plusMinutes(40), ped1, u8);
+		Consulta c6 = new Consulta(arranque8h00.plusMinutes(10), ped1, u8);
 		gest.addConsulta(c6);	
 //		Amanhã 8h10, Ped1, 127
-		Consulta c7 = new Consulta(arranque8h00.plusDays(1).plusMinutes(10), ped1, u8);
+		Consulta c7 = new Consulta(arranque8h00.plusHours(3).plusMinutes(30), ped2, u8);
 		gest.addConsulta(c7);
 //		Amanhã 8h10, Ped1, 129
 		Consulta c8 = new Consulta(arranque8h00.plusDays(1).plusMinutes(10), ped1, u10);

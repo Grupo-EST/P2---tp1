@@ -1,6 +1,7 @@
 package gestsaude.recurso;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,7 +20,9 @@ public class GEstSaude {
 	public static final int UTENTE_TEM_CONSULTA = 1;   // indica que o utente já tem consulta
 	public static final int SERVICO_TEM_CONSULTA = 2;  // indica que o serviço já tem consulta
 	public static final int DATA_JA_PASSOU = 3;        // indica que a data já passou  
-	public static final int ALTERACAO_INVALIDA = 4;    // indica que a alteração é inválida
+	public static final int FORA_DO_HORARIO = 4;	   // indica se está entre 8h10 e 19h50
+	public static final int ALTERACAO_INVALIDA = 5;    // indica que a alteração é inválida
+	
 	
 	// mapas com as listas de todas as informações
 	private HashMap<String,Utente> utentes = new HashMap<String,Utente>();
@@ -90,12 +93,39 @@ public class GEstSaude {
 	
 	public int podeAceitarConsulta( Consulta c ) {
 		// testar todos os motivos pelo qual isto pode falhar (ver constantes e enunciado)
+		
+		int numConsultasServicoSimultaneas= 0;
+		int numConsultasUtenteCurtoTempo = 0;
+		for (Consulta cs : c.getServico().getConsultasMarcadas()) {
+			if (c.getDateTime().isEqual(cs.getDateTime()))
+				numConsultasServicoSimultaneas++;
+		}
+		
+		if (numConsultasServicoSimultaneas > 1)
+			return SERVICO_TEM_CONSULTA;
+		if (c.getDateTime().toLocalTime().isBefore(LocalTime.of(8, 10)) || c.getDateTime().toLocalTime().isAfter(LocalTime.of(19, 50)))
+			return FORA_DO_HORARIO;
+		if (c.getDateTime().isBefore(RelogioSimulado.getTempoAtual()))
+			return DATA_JA_PASSOU;
+		 
+		
+		
 		return CONSULTA_ACEITE;
 	}
 	
 	public int addConsulta( Consulta c ) {
-		Consultas.addConsultaOrdemData(consultas, c);
-		return CONSULTA_ACEITE;
+		
+		int validar = podeAceitarConsulta(c);
+		
+		if(validar == CONSULTA_ACEITE) {
+			Consultas.addConsultaOrdemData(consultas, c);		
+		} 
+		// Caso nao seja validada devemos retirar? caso não aconteça continua a aparecer na lista de utentes e serviços porque foi criada.
+		else {
+			removeConsulta(c);
+		}
+		//return ALTERACAO_INVALIDA;
+		return CONSULTA_ACEITE;			
 	}
 	
 	public int podeAlterarConsulta( Consulta antiga, Consulta nova ) {

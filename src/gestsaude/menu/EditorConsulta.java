@@ -151,9 +151,12 @@ public class EditorConsulta extends JDialog {
 			apresentarMensagem( "Falta definir a data!", false );
 		else {
 			// TODO criar aqui uma consulta com todos os dados introduzidos
-			Consulta c = consulta;
+			LocalDateTime quando = LocalDateTime.of( data, getHora());
+			Consulta c = new Consulta(quando, servico, utente);
 			// TODO verificar se pode criar/editar a consulta 
 			int res = gest.podeAceitarConsulta(c);
+			gest.removeConsulta(c);
+			
 			switch( res ) {
 			case GEstSaude.CONSULTA_ACEITE: 
 				apresentarMensagem( "Está tudo OK!", true );
@@ -166,6 +169,9 @@ public class EditorConsulta extends JDialog {
 				break;
 			case GEstSaude.DATA_JA_PASSOU: 
 				apresentarMensagem( "Fora de prazo!", false );
+				break;
+			case GEstSaude.FORA_DO_HORARIO: 
+				apresentarMensagem( "Fora do horário!", false );
 				break;
 			// esta nunca deve aparecer, mas vamos testar na mesma
 			case GEstSaude.ALTERACAO_INVALIDA:
