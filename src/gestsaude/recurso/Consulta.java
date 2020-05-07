@@ -16,11 +16,17 @@ public class Consulta {
 	private Servico servico;
 	
 	private LocalDateTime dateTime;
+	private boolean validada;
 
 	public Consulta(LocalDateTime dateTime, Servico servico, Utente utente){
 		setDateTime(dateTime);
 		setServico(servico);
 		setUtente(utente);
+	}
+	
+	public void podeAdicionar() {
+		servico.addConsultaMarcada(this);
+		utente.addConsulta(this);
 	}
 	
 	public Utente getUtente() {
@@ -29,7 +35,6 @@ public class Consulta {
 
 	public void setUtente(Utente utente) {
 		this.utente = utente;
-		utente.addConsulta(this);
 	}
 
 	public Senha getSenha() {
@@ -39,6 +44,7 @@ public class Consulta {
 	public void setSenha(Senha senha) {
 		this.senha = senha;
 		servico.addSenha(senha);
+		validada = true;
 	}
 
 	public Servico getServico() {
@@ -47,7 +53,6 @@ public class Consulta {
 
 	public void setServico(Servico servico) {
 		this.servico = servico;
-		servico.addConsultaMarcada(this);
 	}
 	
 	public LocalDateTime getDateTime() {
@@ -64,6 +69,10 @@ public class Consulta {
 	
 	public LocalTime getHora() {
 		return dateTime.toLocalTime();
+	}
+	
+	public boolean getValidada() {
+		return validada;
 	}
 	
 	@Override

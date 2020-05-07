@@ -75,6 +75,9 @@ public class GEstSaude {
 	public Senha emiteSenha( Consulta c, LocalDateTime t ) {
 		// TODO testar se a consulta já está validada, se estiver retornar a senha já emitida
 		// TODO senão criar e retornar a nova senha
+		if(c.getValidada()) 
+			return c.getSenha();
+		
 		Senha senha = new Senha(getProximoIdSenha(), c, t);
 		senha.addListaServicos(c.getServico());
 		addSenha(senha);
@@ -94,21 +97,17 @@ public class GEstSaude {
 	public int podeAceitarConsulta( Consulta c ) {
 		// testar todos os motivos pelo qual isto pode falhar (ver constantes e enunciado)
 		
-		int numConsultasServicoSimultaneas= 0;
-		int numConsultasUtenteCurtoTempo = 0;
-		for (Consulta cs : c.getServico().getConsultasMarcadas()) {
-			if (c.getDateTime().isEqual(cs.getDateTime()))
-				numConsultasServicoSimultaneas++;
-		}
-		
-		if (numConsultasServicoSimultaneas > 1)
-			return SERVICO_TEM_CONSULTA;
 		if (c.getDateTime().toLocalTime().isBefore(LocalTime.of(8, 10)) || c.getDateTime().toLocalTime().isAfter(LocalTime.of(19, 50)))
 			return FORA_DO_HORARIO;
 		if (c.getDateTime().isBefore(RelogioSimulado.getTempoAtual()))
 			return DATA_JA_PASSOU;
-		 
-		
+		// Se já tiver uma consulta nas prox ou anteriores 3h da consulta que estamos a tentar marcar
+		if(c.getUtente().getConsultaDoMomento(c.getUtente().getConsultas(), c.getDateTime()) != null)
+				return UTENTE_TEM_CONSULTA;
+		for(Consulta cs : c.getServico().getConsultasMarcadas()) {
+			if(c.getDateTime().isEqual(cs.getDateTime()))
+				return SERVICO_TEM_CONSULTA;
+		}
 		
 		return CONSULTA_ACEITE;
 	}
@@ -118,24 +117,43 @@ public class GEstSaude {
 		int validar = podeAceitarConsulta(c);
 		
 		if(validar == CONSULTA_ACEITE) {
-			Consultas.addConsultaOrdemData(consultas, c);		
+			c.podeAdicionar();
+			Consultas.addConsultaOrdemData(consultas, c);
+			return CONSULTA_ACEITE;
 		} 
-		// Caso nao seja validada devemos retirar? caso não aconteça continua a aparecer na lista de utentes e serviços porque foi criada.
-		else {
-			removeConsulta(c);
-		}
-		//return ALTERACAO_INVALIDA;
-		return CONSULTA_ACEITE;			
+		return validar;
 	}
 	
 	public int podeAlterarConsulta( Consulta antiga, Consulta nova ) {
 		// testar todos os motivos pelo qual isto pode falhar (ver constantes e enunciado)
+		
+		if (nova.getDateTime().toLocalTime().isBefore(LocalTime.of(8, 10)) || nova.getDateTime().toLocalTime().isAfter(LocalTime.of(19, 50)))
+			return FORA_DO_HORARIO;
+		//Quando uma consulta ja passou 3h da sua hora, não se pode alterar mas deve-se sim criar uma nova
+		if(RelogioSimulado.getTempoAtual().isAfter(antiga.getDateTime().plusHours(3)) || nova.getDateTime().isBefore(RelogioSimulado.getTempoAtual()))
+			return DATA_JA_PASSOU;
+		if(nova.getUtente().getConsultaDoMomento(Consultas.getConsultasApos( antiga.getUtente().getConsultas(),antiga.getDateTime().plusHours(3) ), nova.getDateTime()) != null) 
+			return UTENTE_TEM_CONSULTA;
+		
+		// Se a hora for a mesma, no mesmo servico, não deixa alterar pois a consulta é a mesma
+		for(Consulta cs : nova.getServico().getConsultasMarcadas()) {
+			if(nova.getDateTime().isEqual(cs.getDateTime()))
+				return SERVICO_TEM_CONSULTA;
+		}		
 		return CONSULTA_ACEITE;
 	}
 	
 	public int alteraConsulta( Consulta antiga, Consulta nova ) {
-		// testar todos os motivos pelo qual isto pode falhar (ver constantes e enunciado)
-		return CONSULTA_ACEITE;
+		
+		int alterar = podeAlterarConsulta(antiga, nova);
+		
+		if(alterar == CONSULTA_ACEITE) {
+			removeConsulta(antiga);
+			addConsulta(nova);
+			return CONSULTA_ACEITE;
+		}
+		
+		return alterar;
 	}
 	
 	public Collection<Servico> getServicos() {

@@ -78,6 +78,7 @@ public class Senha {
 	public Servico proxServico() {
 		if(existeProxServico()) {
 			Servico serv = listaServicos.get(0);
+			serv.addConsultaMarcada(consulta);
 			serv.addSenha(this);
 			return listaServicos.get(0);
 		} 
@@ -86,10 +87,6 @@ public class Senha {
 	}
 	
 	public boolean existeProxServico() {
-		/*
-		 * if( tamLista > 0) { return true; } else {
-		 * getConsulta().getUtente().setEstaEmConsulta(false); return false; }
-		 */
 		return (tamLista > 0) ? true : false;
 	}
 	
@@ -97,7 +94,6 @@ public class Senha {
 	/** faz o processamento do fim da consulta por um dado serviço
 	 */
 	public void terminaConsulta() {
-		listaServicos.get(0).removeConsultaMarcada(consulta);
 		listaServicos.get(0).removeSenha(this);
 		removeListaServicos(consulta.getServico());	 
 	}

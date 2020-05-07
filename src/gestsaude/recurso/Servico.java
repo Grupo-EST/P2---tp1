@@ -6,9 +6,8 @@ import java.util.List;
 
 import gestsaude.util.Consultas;
 
-/** Representa um Serviço
- * TODO: A lista das consultasMarcadas deve ser cronológica.
- * 		 A lista das ordemSenhas deve ser ordenana pela ordem de atendimento.
+/* Representa um Serviço
+ * 
  */
 
 
@@ -18,6 +17,7 @@ public class Servico {
 	private String descricao;
 	private ArrayList<Consulta> consultasMarcadas = new ArrayList<Consulta>();
 	private ArrayList<Senha> ordemSenhas = new ArrayList<Senha>();
+	
 	// Para fazer marcações
 	private Consulta consulta;
 	private int nSenhas = 0;

@@ -153,9 +153,12 @@ public class EditorConsulta extends JDialog {
 			// TODO criar aqui uma consulta com todos os dados introduzidos
 			LocalDateTime quando = LocalDateTime.of( data, getHora());
 			Consulta c = new Consulta(quando, servico, utente);
+			int res;
+			if(consulta == null)
+				 res = gest.podeAceitarConsulta(c);
+			else
+				 res = gest.podeAlterarConsulta(consulta, c);
 			// TODO verificar se pode criar/editar a consulta 
-			int res = gest.podeAceitarConsulta(c);
-			gest.removeConsulta(c);
 			
 			switch( res ) {
 			case GEstSaude.CONSULTA_ACEITE: 

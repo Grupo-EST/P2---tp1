@@ -1,6 +1,6 @@
 package gestsaude.recurso;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,31 +52,31 @@ public class Utente {
 	}
 	
 	// Verifica se tem consulta no dia
-	public boolean consultaNoDia(List<Consulta> cs, LocalDate data) {
-		if(Consultas.getConsultasDoDia(cs, data).isEmpty()) 
-			return false;
-		else
-			return true;
-	}
-	
-	// Depois de verificar que tem consulta no dia, 
-	// verifica se tem consulta nas proximas 3h ou nas anteriores
-	public boolean consultaNoMomento(List<Consulta> cs, LocalDateTime hConsulta) {
-		if(Consultas.getConsultaEntreDatas(cs, hConsulta.minusHours(3), hConsulta.plusHours(3)).isEmpty()) 
-			return false;
-		else
-			return true;
-	}
-	
-	public Consulta getConsultaDoMomento(){	
-		for(Consulta cs : consultas) {
-			if(consultaNoDia(consultas, RelogioSimulado.getTempoAtual().toLocalDate())) 
-				if(consultaNoMomento(consultas, cs.getDateTime())) 
-					return cs;
+		public boolean consultaNoDia() {
+			if((Consultas.getConsultasDoDia(consultas, RelogioSimulado.getTempoAtual().toLocalDate()).isEmpty())) 
+				return false;
+			else
+				return true;
 		}
-		return null;
-	}
-
+		
+		// Depois de verificar que tem consulta no dia, 
+		// verifica se tem consulta nas proximas 3h ou nas anteriores
+		public boolean consultaNoMomento() {
+			if(Consultas.getConsultaEntreDatas(consultas, RelogioSimulado.getTempoAtual().minusHours(3), RelogioSimulado.getTempoAtual().plusHours(3)).isEmpty()) 
+				return false;
+			else
+				return true;
+		}
+		
+		public Consulta getConsultaDoMomento(List<Consulta> cs, LocalDateTime data){	
+			for(int i = 0;i<cs.size();i++) {
+				if(cs.get(i).getData().isEqual(data.toLocalDate()))
+					if(cs.get(i).getDateTime().isAfter(data.minusHours(3)) && cs.get(i).getDateTime().isBefore(data.plusHours(3)))
+						return cs.get(i);
+			
+			}
+			return null;
+		}
 	// Utentes diferentes não podem ter o mesmo nº SNS
 	@Override
 	public String toString() {
