@@ -10,22 +10,19 @@ import gestsaude.util.Consultas;
  * 
  */
 
-
 public class Servico {
 	
 	private String id;
 	private String descricao;
 	private ArrayList<Consulta> consultasMarcadas = new ArrayList<Consulta>();
 	private ArrayList<Senha> ordemSenhas = new ArrayList<Senha>();
-	
-	// Para fazer marcações
-	private Consulta consulta;
-	private int nSenhas = 0;
+
+	private int nSenhas = ordemSenhas.size();
 	private boolean precisaConsulta;
 
 	public Servico(String id, String descricao) {
-		setId(id);
-		setDescricao(descricao);
+		this.id = id;
+		this.descricao = descricao;
 	}
 	
 	public void precisaConsulta() {
@@ -40,31 +37,18 @@ public class Servico {
 		return id;
 	}
 	
-	public void setId(String id) {
-		this.id=id;
-	}
-
 	public String getDescricao() {
 		return descricao;
 	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
 	
-	public int getNSenhas() {
+	public int getnSenhas() {
 		return nSenhas;
 	}
-	
-	//TODO Getters e Setters de Consulta precisos?
-	public Consulta getConsulta() {
-		return consulta;
+
+	public void setnSenhas(int nSenhas) {
+		this.nSenhas = nSenhas;
 	}
 
-	public void setConsulta(Consulta consulta) {
-		this.consulta = consulta;
-	}
-	
 	public void addConsultaMarcada(Consulta consulta) {
 		Consultas.addConsultaOrdemData(consultasMarcadas, consulta);
 	}
@@ -80,16 +64,16 @@ public class Servico {
 	
 	public void addSenha(Senha senha) {
 		if(chegouAHoras(senha)) 
-			ordenaSenhaPorConsulta(ordemSenhas, senha);
+			ordenaPorConsulta(ordemSenhas, senha);
 		else 
-			ordenaSenhaPorChegada(senha);
+			ordenaPorChegada(senha);
 		
-		nSenhas++;		
+		setnSenhas(ordemSenhas.size());	
 	}
 	
 	public void removeSenha(Senha senha) {
 		ordemSenhas.remove(senha);
-		nSenhas--;
+		setnSenhas(ordemSenhas.size());	
 	}
 	
 	public List<Senha> getSenhasServico(){
@@ -102,7 +86,6 @@ public class Servico {
 	public Senha getProximaSenha() {
 		if(!ordemSenhas.isEmpty()) {
 			Senha s = ordemSenhas.get(0);
-			setConsulta(s.getConsulta());
 			return s;
 		}
 		
@@ -111,6 +94,7 @@ public class Servico {
 
 	/** TODO:processo para rejeitar a próxima senha, caso o utente seja muito atrasado
 	 */
+	// Se menos de 3 pessoas na fila fica em ultímo, senão fica na 3º posição
 	public void rejeitaProximaSenha() {
 		Senha temp = ordemSenhas.get(0);
 		if(ordemSenhas.size()<3) 
@@ -132,7 +116,7 @@ public class Servico {
 		return s.getTempoEntrada().isBefore(s.getConsulta().getDateTime());
 	}
 	
-	private void ordenaSenhaPorConsulta(List<Senha> senha, Senha s) {
+	private void ordenaPorConsulta(List<Senha> senha, Senha s) {
 		int i;
 		for(i = 0; i<senha.size(); i++) {
 			if(senha.get(i).getConsulta().getDateTime().isAfter(s.getConsulta().getDateTime()))
@@ -141,7 +125,7 @@ public class Servico {
 		senha.add(i, s);
 	}
 	
-	private void ordenaSenhaPorChegada(Senha s) {
+	private void ordenaPorChegada(Senha s) {
 		ordemSenhas.add(s);
 	}
 	

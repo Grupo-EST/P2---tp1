@@ -61,7 +61,7 @@ public class Arranque {
 		gest.addUtentes(u10);
 //		130, Daniel Mendes Rodrigues
 		Utente u11 = new Utente("130", "Daniel Mendes Rodrigues");
-		gest.addUtentes(u1);
+		gest.addUtentes(u11);
 
 
 //
@@ -155,6 +155,7 @@ public class Arranque {
 //		Daqui a dois dias 8h40, Ped1, 123
 		Consulta c9 = new Consulta(arranque8h00.plusDays(2).plusMinutes(40), ped1, u4);
 		gest.addConsulta(c9);
+		
 
 	
 	

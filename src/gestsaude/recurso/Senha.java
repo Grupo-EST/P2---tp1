@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 
 /** Representa uma Senha
  */
@@ -23,7 +22,6 @@ public class Senha {
 		setTempoEntrada(tempoEntrada);
 		setConsulta(consulta);
 	}
-	
 	
 	public int getTamLista() {
 		return tamLista;
@@ -75,6 +73,8 @@ public class Senha {
 	/** retorna o próximo serviço associado a esta senha 
 	 * @return o próximo serviço associado a esta senha
 	 */
+	
+	// Chamado a seguir de terminarConsulta, logo .get(0) dá-nos o proxServico
 	public Servico proxServico() {
 		if(existeProxServico()) {
 			Servico serv = listaServicos.get(0);
@@ -82,10 +82,9 @@ public class Senha {
 			serv.addSenha(this);
 			return listaServicos.get(0);
 		} 
-		
 		return null;
 	}
-	
+	// Se existir mais que um serviço na lista então há proxServico
 	public boolean existeProxServico() {
 		return (tamLista > 0) ? true : false;
 	}

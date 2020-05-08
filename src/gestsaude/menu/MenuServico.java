@@ -83,6 +83,7 @@ public class MenuServico extends JDialog {
 	/** método chamado para confirmar a consulta */
 	private void confirmarConsulta() {
 		// TODO implementar este método (se necessário)
+		//Não achámos necessário implementar esta class
 		
 	}
 	
@@ -103,7 +104,7 @@ public class MenuServico extends JDialog {
 		Vector<String> serv = new Vector<String>();
 		// ciclo para pedir os vários serviços (pode ser mais que um)
 		do {
-			// criar umalista visual, com todos os serviços introduzidos até agora
+			// criar uma lista visual, com todos os serviços introduzidos até agora
 			JList<String> lista = new JList<String>( serv );
 			// pedir ao utilizar o id do próximo serviço, apresentando os serviços já introduzidos
 			String res = JOptionPane.showInputDialog( this, lista, "Encaminhar para onde?", JOptionPane.PLAIN_MESSAGE );
@@ -142,7 +143,7 @@ public class MenuServico extends JDialog {
 	/** Atualiza título, indicando quantos utentes estão em fila de espera */
 	public void atualizarInfo() {
 		// TODO indicar quantos utentes estão em fila de espera
-		int nUtentes = servico.getNSenhas(); 
+		int nUtentes = servico.getnSenhas(); 
 		// TODO Indicar o id do servico
 		setTitle( servico.getId() + " utentes: " + nUtentes );
 		proxBt.setEnabled( nUtentes > 0 ); // se houver em espera pode-se ativar o botão de próximo

@@ -99,6 +99,7 @@ public class GEstSaude {
 		
 		if (c.getDateTime().toLocalTime().isBefore(LocalTime.of(8, 10)) || c.getDateTime().toLocalTime().isAfter(LocalTime.of(19, 50)))
 			return FORA_DO_HORARIO;
+		// Não podemos criar uma consulta para uma hora anterior da atual
 		if (c.getDateTime().isBefore(RelogioSimulado.getTempoAtual()))
 			return DATA_JA_PASSOU;
 		// Se já tiver uma consulta nas prox ou anteriores 3h da consulta que estamos a tentar marcar
@@ -132,10 +133,11 @@ public class GEstSaude {
 		//Quando uma consulta ja passou 3h da sua hora, não se pode alterar mas deve-se sim criar uma nova
 		if(RelogioSimulado.getTempoAtual().isAfter(antiga.getDateTime().plusHours(3)) || nova.getDateTime().isBefore(RelogioSimulado.getTempoAtual()))
 			return DATA_JA_PASSOU;
+		// não conta a consulta atual, logo podemos mudar a consulta para 10min a seguir sem aparecer que já tem consulta nas prox 3h
 		if(nova.getUtente().getConsultaDoMomento(Consultas.getConsultasApos( antiga.getUtente().getConsultas(),antiga.getDateTime().plusHours(3) ), nova.getDateTime()) != null) 
 			return UTENTE_TEM_CONSULTA;
 		
-		// Se a hora for a mesma, no mesmo servico, não deixa alterar pois a consulta é a mesma
+		// nota: se a hora for a mesma, no mesmo servico, não deixa alterar pois a consulta é a mesma
 		for(Consulta cs : nova.getServico().getConsultasMarcadas()) {
 			if(nova.getDateTime().isEqual(cs.getDateTime()))
 				return SERVICO_TEM_CONSULTA;

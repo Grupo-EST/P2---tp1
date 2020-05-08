@@ -3,14 +3,11 @@ package gestsaude.menu;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
+
 
 import javax.swing.*;
 
 import gestsaude.recurso.*;
-import gestsaude.util.Consultas;
 import gestsaude.util.RelogioSimulado;
 
 /** Representa uma máquina de entrada, onde os clientes retiram as senhas
@@ -54,8 +51,8 @@ public class MaquinaEntrada extends javax.swing.JDialog {
 			}
 			// TODO emitir a senha 
 			Consulta c = u.getConsultaDoMomento(u.getConsultas(), RelogioSimulado.getTempoAtual());
-			gest.emiteSenha(c, RelogioSimulado.getTempoAtual());
-			JOptionPane.showMessageDialog( this, nome + ", a sua senha é " + c.getSenha().getId() ); // TODO colocar aqui o número da senha
+			Senha senha = gest.emiteSenha(c, RelogioSimulado.getTempoAtual());
+			JOptionPane.showMessageDialog( this, nome + ", a sua senha é " + senha.getId() ); // TODO colocar aqui o número da senha
 		} else {
 			JOptionPane.showMessageDialog( this, "Número inválido" );
 		}

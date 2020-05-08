@@ -132,10 +132,10 @@ public class MenuSecretaria extends JFrame {
 		int opcao = JOptionPane.showConfirmDialog( this, "Deseja mesmo apagar esta Consulta?", "Confimação", JOptionPane.YES_NO_OPTION );
 		if( opcao == JOptionPane.NO_OPTION )
 			return;
-		if(c.getValidada())
-			JOptionPane.showMessageDialog( this, "Não pode apagar uma consulta já validada." );	
-		else
+		if(!c.getValidada())
 			gest.removeConsulta(c);
+		else
+			JOptionPane.showMessageDialog( this, "Não pode apagar uma consulta já validada." );	
 		
 		listarTodas();
 	}

@@ -47,7 +47,7 @@ public class Consultas {
 	public static List<Consulta> getConsultasDoDia( List<Consulta> cs, LocalDate dia ) {
 		List<Consulta> consultasDoDia = new ArrayList<Consulta>();
 		for(int i = 0;i<cs.size(); i++) {
-			if(cs.get(i).getData().getDayOfMonth()==dia.getDayOfMonth()) {
+			if(cs.get(i).getData().equals(dia)) {
 				consultasDoDia.add(cs.get(i));
 			}
 		}
